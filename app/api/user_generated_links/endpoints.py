@@ -72,6 +72,7 @@ async def user_generated_links(
     response_list = [] 
     for i in result:
         data = {
+            'unique_key': i.short_key,
             'short_key' : f'http://{i.domain}/{i.short_key}',
             'long_url' : i.long_url,
             'created_at' : i.created_at.date(),
