@@ -15,6 +15,7 @@ router = APIRouter()
 
 @router.post('/')
 async def generate_short_url(generator: GeneratorSchema, db: Session = Depends(get_db)):
+    print(generator, "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG")
     user = db.query(User).filter(User.id == generator.user_id).first()
     if user is None:
         raise HTTPException(status_code=400, detail="User does not exist with that user id")
