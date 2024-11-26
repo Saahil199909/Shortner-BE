@@ -22,9 +22,12 @@ async def generate_short_url(generator: GeneratorSchema, db: Session = Depends(g
     try:
         key_length = int(generator.key_length)
         counter = await redis_incre_counter(key_length)
+        print("after redis")
         generated_short_url = await generate_unique_string(counter, key_length)
+        print('after genrating url')
         short_link_details_create = SHORT_LINK_DETAILS_MODELS.get(key_length)(short_key = generated_short_url, user_id = generator.user_id,
                                                             long_url = generator.long_url, domain = generator.domain,)
+        print('after adding in generater models')
         db.add(short_link_details_create)
         db.commit()
 
@@ -32,7 +35,7 @@ async def generate_short_url(generator: GeneratorSchema, db: Session = Depends(g
             'short_link': f'http://{generator.domain}/{generated_short_url}'
         }
     except Exception as e:
-        print(e)
+        print(e, "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
         raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail=str(e))
 
     

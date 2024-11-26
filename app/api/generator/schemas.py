@@ -1,4 +1,4 @@
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, field_validator
 
 from fastapi import APIRouter, Depends,  HTTPException, status
 
@@ -8,8 +8,8 @@ class GeneratorSchema(BaseModel):
     long_url: str
     domain: str
 
-    @validator('long_url', 'key_length', pre=True)
-    def handle_empty_string(cls, value):
+    @field_validator('long_url', 'key_length', mode="before")
+    def handle_empty_string(cls, value, info):
         if value == "" or value is None:
-            raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail=f"{cls.__name__}: Value should not be empty")
+            raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail=f"{info.field_name}: Value should not be empty")
         return value
