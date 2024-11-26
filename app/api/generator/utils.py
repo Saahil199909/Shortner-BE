@@ -12,10 +12,10 @@ def get_shuffled_pool(seed):
 
 # Pre-generate character pools for different lengths using fixed seeds
 char_pools = {
-    1: get_shuffled_pool(seed=42),
-    2: get_shuffled_pool(seed=43),
-    3: get_shuffled_pool(seed=44),
-    4: get_shuffled_pool(seed=45),
+    # 1: get_shuffled_pool(seed=42),
+    # 2: get_shuffled_pool(seed=43),
+    # 3: get_shuffled_pool(seed=44),
+    # 4: get_shuffled_pool(seed=45),
     5: get_shuffled_pool(seed=46),
     6: get_shuffled_pool(seed=47),
 }
@@ -23,7 +23,7 @@ char_pools = {
 # Function to generate a unique string of a given length for a specific index
 async def generate_unique_string(index, length=5):
     if length not in char_pools:
-        raise ValueError("Length must be between 1 and 5")
+        raise ValueError("Length must be either 5 and 6")
     
     pool = char_pools[length]
     pool_size = len(pool)
