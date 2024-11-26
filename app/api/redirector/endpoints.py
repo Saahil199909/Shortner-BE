@@ -1,4 +1,5 @@
 import traceback
+import os
 
 from fastapi import APIRouter, Depends, Request,  HTTPException, status
 from fastapi.responses import RedirectResponse
@@ -10,7 +11,8 @@ from app.db.models import ShortLinkDetails
 from app.api.redirector.utils import collect_short_link_details
 
 
-maxmind_db_path = '/home/hexa3/Downloads/GeoLite2-City_20240809/GeoLite2-City.mmdb'
+project_rootpath = os.path.dirname(os.path.abspath(__file__))
+maxmind_db_path = os.path.join(project_rootpath, 'GeoLite2-City_20240809/GeoLite2-City.mmdb' )
 
 router = APIRouter()
 
