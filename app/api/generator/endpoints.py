@@ -37,7 +37,8 @@ async def generate_short_url(generator: GeneratorSchema, db: Session = Depends(g
             'short_link': f'https://{generator.domain}/{generated_short_url}'
         }
     except Exception as e:
-        print(e, "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
-        raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail=str(e))
+        error_name = type(e).__name__ 
+        print(f"{error_name}: {e} EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+        raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail=f"{error_name}: {e}")
 
     
