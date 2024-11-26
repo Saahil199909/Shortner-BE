@@ -19,7 +19,7 @@ async def generate_short_url(generator: GeneratorSchema, db: Session = Depends(g
     if user is None:
         raise HTTPException(status_code=400, detail="User does not exist with that user id")
     try:
-        key_length = generator.key_length
+        key_length = int(generator.key_length)
         counter = await redis_incre_counter(key_length)
         generated_short_url = await generate_unique_string(counter, key_length)
         short_link_details_create = SHORT_LINK_DETAILS_MODELS.get(key_length)(short_key = generated_short_url, user_id = generator.user_id,
