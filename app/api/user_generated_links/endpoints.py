@@ -135,6 +135,52 @@ async def delete_short_link(short_key: str, db: Session = Depends(get_db)):
    
 
 
+@router.get('/short-key-hits-detail/{short_key}')
+async def short_key_hits_detail(short_key: str, db: Session = Depends(get_db)):
+    os = db.query(
+        ShortLinkDetails.OS,
+        func.count().label('os_count')
+        ).filter(ShortLinkDetails.short_key == short_key
+        ).group_by(ShortLinkDetails.OS).all()
+
+    device = db.query(
+        ShortLinkDetails.device,
+        func.count().label('device_count'),
+        ).filter(ShortLinkDetails.short_key == short_key
+        ).group_by(ShortLinkDetails.device).all()
+
+    country = db.query(
+        ShortLinkDetails.country,
+        func.count(ShortLinkDetails.country).label('country_count')
+        ).filter(ShortLinkDetails.short_key == short_key, ShortLinkDetails.country.isnot(None)
+        ).group_by(ShortLinkDetails.country).all()
+
+    city = db.query(
+        ShortLinkDetails.city,
+        func.count(ShortLinkDetails.city).label('city_count')
+        ).filter(ShortLinkDetails.short_key == short_key,  ShortLinkDetails.city.isnot(None)
+        ).group_by(ShortLinkDetails.city).all()
+
+    short_key_length = len(short_key) 
+    model_name = SHORT_LINK_DETAILS_MODELS.get(short_key_length)
+    short_link_created_at = db.query(model_name.created_at).filter(model_name.short_key == short_key, model_name.is_active == True).first()    
+                        
+    os_response = [{'os_name': i.OS, 'count': i.os_count} for i in os]
+    device_response = [{'os_name': i.device, 'count': i.device_count} for i in device]
+    country_response = [{'os_name': i.country, 'count': i.country_count} for i in country]
+    city_response = [{'os_name': i.city, 'count': i.city_count} for i in city]
+    total_hit_count = sum(i.device_count for i in device)
+
+
+    return {
+        'os': os_response,
+        'device': device_response,
+        'country': country_response,
+        'city': city_response,
+        'total_hit_count': total_hit_count,
+        'short_link_created_at': short_link_created_at[0].date()
+    }
+
 
 
 

@@ -14,7 +14,7 @@ router = APIRouter()
 
 
 @router.get('/{short_key}')
-async def generate_short_url(short_key: str, request: Request, db: Session = Depends(get_db)):
+async def redirect_short_url(short_key: str, request: Request, db: Session = Depends(get_db)):
     try: 
         key_length = len(short_key)
         model_name = SHORT_LINK_DETAILS_MODELS.get(key_length)
