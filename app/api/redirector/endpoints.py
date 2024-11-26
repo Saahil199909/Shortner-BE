@@ -12,7 +12,7 @@ from app.api.redirector.utils import collect_short_link_details
 
 
 project_rootpath = os.path.dirname(os.path.abspath(__file__))
-maxmind_db_path = os.path.join(project_rootpath, 'GeoLite2-City_20240809', 'GeoLite2-City.mmdb' )
+maxmind_db_path = os.path.join(project_rootpath, '..' ,'GeoLite2-City_20240809', 'GeoLite2-City.mmdb' )
 print(maxmind_db_path, "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMmm")
 
 router = APIRouter()
