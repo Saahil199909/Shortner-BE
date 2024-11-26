@@ -15,7 +15,8 @@ origins = [
     "http://localhost:5173",  # Your React app's URL
     "http://192.168.1.6:5173",
     "http://192.168.1.47:5173",
-    "http://192.168.0.106:5173"
+    "http://192.168.0.106:5173",
+    'shortner-fe.vercel.app'
     # Add other allowed origins if needed
 ]
 
