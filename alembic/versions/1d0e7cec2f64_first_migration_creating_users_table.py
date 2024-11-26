@@ -33,6 +33,11 @@ def upgrade() -> None:
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )
+     # Insert initial data
+    op.execute("""
+        INSERT INTO users (username, email, password, is_active, is_deleted) 
+        VALUES ('viratt', 'viratt@gmail.com', 'viratt', TRUE, FALSE);
+    """)
     # ### end Alembic commands ###
 
 
