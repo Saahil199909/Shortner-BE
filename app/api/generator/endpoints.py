@@ -20,6 +20,7 @@ async def generate_short_url(generator: GeneratorSchema, db: Session = Depends(g
     if user is None:
         raise HTTPException(status_code=400, detail="User does not exist with that user id")
     try:
+        print('STARTED')
         key_length = int(generator.key_length)
         counter = await redis_incre_counter(key_length)
         print("after redis")
