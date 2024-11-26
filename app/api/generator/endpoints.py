@@ -22,6 +22,7 @@ async def generate_short_url(generator: GeneratorSchema, db: Session = Depends(g
     try:
         print('STARTED')
         key_length = int(generator.key_length)
+        print(key_length,"KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
         counter = await redis_incre_counter(key_length)
         print("after redis")
         generated_short_url = await generate_unique_string(counter, key_length)
@@ -33,7 +34,7 @@ async def generate_short_url(generator: GeneratorSchema, db: Session = Depends(g
         db.commit()
 
         return {
-            'short_link': f'http://{generator.domain}/{generated_short_url}'
+            'short_link': f'https://{generator.domain}/{generated_short_url}'
         }
     except Exception as e:
         print(e, "EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
