@@ -1,3 +1,5 @@
+import traceback
+
 from fastapi import APIRouter, Depends, Request,  HTTPException, status
 from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
@@ -25,5 +27,8 @@ async def redirect_short_url(short_key: str, request: Request, db: Session = Dep
 
         return RedirectResponse(url=long_url)
     except Exception as e:
+        error_name = type(e).__name__ 
+        tb = traceback.format_exc()
+        print(f"{error_name}: {e} EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE\nTraceback:\n{tb}")
         raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail='Unable to Redirect, plesae try again later')
 
