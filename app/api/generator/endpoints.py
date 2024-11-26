@@ -1,3 +1,6 @@
+import trace
+import traceback
+
 from fastapi import APIRouter, Depends,  HTTPException, status
 from sqlalchemy.orm import Session
 
@@ -8,7 +11,6 @@ from app.db.models import User, FiveGenerator, SixGenerator
 from app.api.generator.utils import generate_unique_string, redis_incre_counter
 from app.service import RedisConnection
 
-import asyncio
 
 router = APIRouter()
 
@@ -38,7 +40,8 @@ async def generate_short_url(generator: GeneratorSchema, db: Session = Depends(g
         }
     except Exception as e:
         error_name = type(e).__name__ 
-        print(f"{error_name}: {e} EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+        tb = traceback.format_exc()
+        print(f"{error_name}: {e} EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE\nTraceback:\n{tb}")
         raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail=f"{error_name}: {e}")
 
     

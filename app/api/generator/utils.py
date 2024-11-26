@@ -42,6 +42,9 @@ async def generate_unique_string(index, length=5):
 
 
 async def redis_incre_counter(key_length):
+    print(key_length, "key lenght inside redis incfe funtion")
     redis_client = RedisConnection().redis_connection()
+    print(redis_client, "RCRCRRCRCRCRCRCRRCRCRCRCRCRCRCRCRCRRCRCRC")
     redis_key = f'counter_{key_length}'
+    print(redis_key, "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR")
     return redis_client.incr(redis_key)
