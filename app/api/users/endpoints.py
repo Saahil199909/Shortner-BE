@@ -18,3 +18,20 @@ async def login(user: UserSchema, db: Session = Depends(get_db)):
         'user_id': result.id,
         'msg': 'Login successfull'
     }
+
+@router.post('/register')
+async def register(payload: UserSchema, db: Session = Depends(get_db)):
+    user_obj = db.query(User).filter(User.email == payload.email).first()
+    if user_obj:
+        raise HTTPException(status_code=400, detail="Email already exist")
+    try:
+        create_user_obj = User(email = payload.email, password = payload.password)
+        db.add(create_user_obj)
+        db.commit()
+        return {
+            'user_id': create_user_obj.id,
+            'msg': "User created Successfully"
+        }
+    except Exception as e:
+        print(e)
+    
